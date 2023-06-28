@@ -11,7 +11,6 @@ import com.example.hamro_barber.repository.UserRepository;
 import com.example.hamro_barber.security.TokenProvider;
 import com.example.hamro_barber.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,9 +32,10 @@ public class UserServiceImpl implements UserService {
     private final TokenProvider tokenProvider;
 
     @Override
-    public User loadUserByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
+    public User findUserByEmail(String email) {
+        Optional<User> user = userRepository.findUserByEmail(email);
         if (user.isPresent()) {
+            System.out.println("User: " + user.get().getEmail());
             return user.get();
         } else {
             throw new ResourceNotFoundException("User not found with email: " + email);
@@ -44,22 +45,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(SignUpRequest signUpRequest, HttpServletRequest request) {
         try {
-            try {
-                loadUserByEmail(signUpRequest.getEmail());
-            } catch (ResourceNotFoundException e) {
+            findUserByEmail(signUpRequest.getEmail());
+        } catch (ResourceNotFoundException e) {
 
-                System.out.println("Hello");
-
-                User user = new User();
-                user.setEmail(signUpRequest.getEmail());
-                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-                user.setPassword(bCryptPasswordEncoder.encode(signUpRequest.getPassword()));
-                return userRepository.save(user);
+            if (!signUpRequest.getPassword().equals(signUpRequest.getConfirmPassword())) {
+                throw new BadRequestException("Password do not match");
             }
-        } catch (Exception ex) {
-            throw new CustomException(ex.getLocalizedMessage());
+
+            User user = new User();
+            user.setEmail(signUpRequest.getEmail());
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            user.setPassword(bCryptPasswordEncoder.encode(signUpRequest.getPassword()));
+            user.setPhone(signUpRequest.getPhone());
+            user.setFirstName(signUpRequest.getFirstName());
+            user.setLastName(signUpRequest.getLastName());
+
+            return userRepository.save(user);
         }
-        return null;
+        throw new BadRequestException("User already exists");
     }
 
     @Override
@@ -76,5 +79,34 @@ public class UserServiceImpl implements UserService {
         catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
+    }
+
+    @Override
+    public User findUserById(Integer userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()){
+            return user.get();
+        } else {
+            throw new CustomException("User does not exists");
+        }
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User updateUser(User user) {
+        user.setFirstName(user.getFirstName());
+        user.setLastName(user.getLastName());
+        user.setImageUrl(user.getImageUrl());
+        user.setPhone(user.getPhone());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Integer userId) {
+
     }
 }

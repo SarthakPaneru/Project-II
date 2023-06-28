@@ -31,4 +31,12 @@ public class CustomExceptionHandler {
 //        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
 //
 //    }
+
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException exception) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("message", exception.getLocalizedMessage());
+        error.put("status", "failed");
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
 }

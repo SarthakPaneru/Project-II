@@ -6,15 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Service {
+public class Services {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,4 +20,6 @@ public class Service {
     private String serviceName;
     private String fee;
     private String serviceTimeInMinutes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Barber barber;
 }
