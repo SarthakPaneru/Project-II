@@ -36,18 +36,23 @@ public class BarberServiceImpl implements BarberService {
     }
 
     @Override
-    public Barber createBarber(Barber customer) {
-        User user = userService.findUserByEmail(customer.getUser().getEmail());
-        customer.setUser(user);
-        return barberRepository.save(customer);
+    public Barber createBarber(Barber barber) {
+        User user = userService.findUserById(barber.getUser().getId());
+        barber.setUser(user);
+        return barberRepository.save(barber);
     }
 
     @Override
     public Barber updateBarber(Barber barber) {
         User user = userService.findUserByEmail(barber.getUser().getEmail());
         Barber existingBarber = findBarberById(barber.getId());
-        User updatedUser = userService.updateUser(barber.getUser());
+        User user1 = userService.findUserById(barber.getUser().getId());
+        User updatedUser = userService.updateUser(user1);
         existingBarber.setUser(updatedUser);
+        existingBarber.setOpened(barber.isOpened());
+        System.out.println("Is opened: " + barber.isOpened());
+        existingBarber.setServices(barber.getServices());
+        existingBarber.setPanNo(barber.getPanNo());
         return barberRepository.save(existingBarber);
     }
 

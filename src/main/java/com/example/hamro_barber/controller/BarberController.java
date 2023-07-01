@@ -1,6 +1,8 @@
 package com.example.hamro_barber.controller;
 
 import com.example.hamro_barber.entity.Barber;
+import com.example.hamro_barber.entity.dto.BarberDto;
+import com.example.hamro_barber.mapper.BarberMapper;
 import com.example.hamro_barber.service.serviceImpl.BarberServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,25 +14,26 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class BarberController {
     private final BarberServiceImpl barberService;
+    private final BarberMapper barberMapper;
 
     @GetMapping("/get-all")
     public ResponseEntity<?> getAllBarbers() {
-        return new ResponseEntity<>(barberService.getAllBarbers(), HttpStatus.OK);
+        return new ResponseEntity<>(barberMapper.listBarberToDto(barberService.getAllBarbers()), HttpStatus.OK);
     }
 
     @GetMapping("/get/{barberId}")
     public ResponseEntity<?> getBarber(@PathVariable Integer barberId) {
-        return new ResponseEntity<>(barberService.findBarberById(barberId), HttpStatus.OK);
+        return new ResponseEntity<>(barberMapper.barberToDto(barberService.findBarberById(barberId)), HttpStatus.OK);
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createBarber(@RequestBody Barber barber) {
-        return new ResponseEntity<>(barberService.createBarber(barber), HttpStatus.CREATED);
+        return new ResponseEntity<>(barberMapper.barberToDto(barberService.createBarber(barber)), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateBarber(@RequestBody Barber barber) {
-        return new ResponseEntity<>(barberService.updateBarber(barber), HttpStatus.OK);
+    public ResponseEntity<?> updateBarber(@RequestBody BarberDto barber) {
+        return new ResponseEntity<>(barberMapper.barberToDto(barberService.updateBarber(barberMapper.dtoToBarber(barber))), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{barberId}")

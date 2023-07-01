@@ -1,12 +1,14 @@
 package com.example.hamro_barber.service.serviceImpl;
 
 import com.example.hamro_barber.entity.User;
+import com.example.hamro_barber.entity.dto.UserDto;
 import com.example.hamro_barber.exception.BadRequestException;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.AuthResponse;
 import com.example.hamro_barber.helper.LoginRequest;
 import com.example.hamro_barber.helper.SignUpRequest;
+import com.example.hamro_barber.mapper.UserMapper;
 import com.example.hamro_barber.repository.UserRepository;
 import com.example.hamro_barber.security.TokenProvider;
 import com.example.hamro_barber.service.UserService;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
+    private final UserMapper userMapper;
 
     @Override
     public User findUserByEmail(String email) {

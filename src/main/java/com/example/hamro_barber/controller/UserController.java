@@ -1,5 +1,6 @@
 package com.example.hamro_barber.controller;
 
+import com.example.hamro_barber.mapper.UserMapper;
 import com.example.hamro_barber.service.serviceImpl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,15 +17,16 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class UserController {
     private final UserServiceImpl userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/get-all")
     public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userMapper.listUserToDto(userService.findAllUsers()), HttpStatus.OK);
     }
 
     @GetMapping("get/{userId}")
     public ResponseEntity<?> getUserFromUserId(@PathVariable Integer userId) {
-        return new ResponseEntity<>(userService.findUserById(userId), HttpStatus.OK);
+        return new ResponseEntity<>(userMapper.userToDto(userService.findUserById(userId)), HttpStatus.OK);
     }
 
 }

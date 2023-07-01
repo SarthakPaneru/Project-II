@@ -5,6 +5,8 @@ import com.example.hamro_barber.entity.User;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.helper.LoginRequest;
 import com.example.hamro_barber.helper.SignUpRequest;
+import com.example.hamro_barber.mapper.CustomerMapper;
+import com.example.hamro_barber.mapper.UserMapper;
 import com.example.hamro_barber.service.serviceImpl.BarberServiceImpl;
 import com.example.hamro_barber.service.serviceImpl.CustomerServiceImpl;
 import com.example.hamro_barber.service.serviceImpl.UserServiceImpl;
@@ -28,6 +30,7 @@ public class AuthController {
     private final UserServiceImpl userService;
     private final CustomerServiceImpl customerService;
     private final BarberServiceImpl barberService;
+    private final CustomerMapper customerMapper;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, HttpServletRequest request) {
@@ -35,7 +38,7 @@ public class AuthController {
         Customer customer = new Customer();
         customer.setUser(registeredUser);
         Customer registeredCustomer = customerService.createCustomer(customer);
-        return new ResponseEntity<>(registeredCustomer, HttpStatus.CREATED);
+        return new ResponseEntity<>(customerMapper.customerToDto(registeredCustomer), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
