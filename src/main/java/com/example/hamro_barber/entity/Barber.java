@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.List;
 
 @Entity
@@ -22,10 +24,14 @@ public class Barber {
     private String panNo;
     private boolean isOpened;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(unique = true, referencedColumnName = "id")
     private User user;
 
     @Nullable
     @OneToMany(mappedBy = "barber", cascade = CascadeType.ALL)
     private List<Services> services;
+
+    private String imageUrl;
+    private Integer rating;
 }

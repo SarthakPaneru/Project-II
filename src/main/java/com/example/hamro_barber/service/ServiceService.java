@@ -11,5 +11,6 @@ public interface ServiceService {
     Services getService(Integer serviceId);
     Services updateService(Services services);
     ApiResponse deleteService(Integer serviceId);
+    List<String> getCategories();
 
 }

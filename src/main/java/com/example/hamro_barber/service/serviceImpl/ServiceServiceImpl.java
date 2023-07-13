@@ -41,6 +41,7 @@ public class ServiceServiceImpl implements ServiceService {
         existingServices.setServiceName(services.getServiceName());
         existingServices.setFee(services.getFee());
         existingServices.setServiceTimeInMinutes(services.getServiceTimeInMinutes());
+        existingServices.setCategory(services.getCategory());
         existingServices = serviceRepository.save(existingServices);
         return existingServices;
     }
@@ -50,5 +51,10 @@ public class ServiceServiceImpl implements ServiceService {
         Services existingServices = getService(serviceId);
         serviceRepository.delete(existingServices);
         return new ApiResponse(true, "Service deleted successfully");
+    }
+
+    @Override
+    public List<String> getCategories() {
+        return serviceRepository.getCategories();
     }
 }

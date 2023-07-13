@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/customer")
 @AllArgsConstructor
@@ -25,6 +27,12 @@ public class CustomerController {
         return new ResponseEntity<>(customerMapper.customerToDto(customerService.findCustomerById(customerId)), HttpStatus.OK);
     }
 
+    @GetMapping("/get-email/{email}")
+    public ResponseEntity<?> getCustomer(@PathVariable String email) {
+        return new ResponseEntity<>(customerMapper.customerToDto(customerService.findCustomerByEmail(email)), HttpStatus.OK);
+    }
+
+
     @PostMapping("/create")
     public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerMapper.customerToDto(customerService.createCustomer(customer)), HttpStatus.CREATED);
@@ -38,5 +46,10 @@ public class CustomerController {
     @DeleteMapping("/delete/{customerId}")
     public ResponseEntity<?> deletedCustomer(@PathVariable Integer customerId) {
         return new ResponseEntity<>(customerService.deleteCustomer(customerId), HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/get-logged-in-user")
+    public ResponseEntity<?> getLoggedInUser(Principal principal) {
+        return new ResponseEntity<>(customerMapper.customerToDto(customerService.findCustomerByEmail(principal.getName())), HttpStatus.OK);
     }
 }

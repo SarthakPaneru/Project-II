@@ -1,5 +1,6 @@
 package com.example.hamro_barber.entity;
 
+import com.example.hamro_barber.constants.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,5 @@ public class Services {
     private String serviceTimeInMinutes;
     @ManyToOne(fetch = FetchType.LAZY)
     private Barber barber;
+    private Category category;
 }

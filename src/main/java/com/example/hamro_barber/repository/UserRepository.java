@@ -2,6 +2,7 @@ package com.example.hamro_barber.repository;
 
 import com.example.hamro_barber.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

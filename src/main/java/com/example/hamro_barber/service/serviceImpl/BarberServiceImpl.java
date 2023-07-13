@@ -7,9 +7,20 @@ import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.repository.BarberRepository;
 import com.example.hamro_barber.service.BarberService;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +30,7 @@ import java.util.Optional;
 public class BarberServiceImpl implements BarberService {
     private final BarberRepository barberRepository;
     private final UserServiceImpl userService;
+    private final Path path = Paths.get("images");
 
     @Override
     public List<Barber> getAllBarbers() {
@@ -67,5 +79,42 @@ public class BarberServiceImpl implements BarberService {
         } else {
             throw new ResourceNotFoundException("User not found");
         }
+    }
+
+    @Override
+    public void saveImage(MultipartFile file, Integer barberId) {
+        try {
+            Files.copy(file.getInputStream(), this.path.resolve(file.getOriginalFilename()));
+            Barber barber = findBarberById(barberId);
+            barber.setImageUrl("images/" + file.getOriginalFilename());
+            barberRepository.save(barber);
+        } catch (Exception e) {
+            if (e instanceof FileAlreadyExistsException) {
+                throw new RuntimeException("A file of that name already exists.");
+            }
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public String load(Integer barberId) {
+        Barber barber = findBarberById(barberId);
+        String imageUrl = barber.getImageUrl();
+        try {
+            File file = new ClassPathResource(
+                    "static/" + imageUrl).getFile();
+            Resource resource = new UrlResource(file.toURI());
+
+            if (resource.exists() || resource.isReadable()) {
+                return imageUrl;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
