@@ -11,6 +11,7 @@ import java.util.List;
 public interface BarberService {
     List<Barber> getAllBarbers();
     Barber findBarberById(Integer barberId);
+    Barber findBarberByEmail(String email);
     Barber createBarber(Barber barber);
     Barber updateBarber(Barber barber);
     ApiResponse deleteBarber(Integer barberId);

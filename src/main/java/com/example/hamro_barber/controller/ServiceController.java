@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/service")
@@ -27,8 +29,9 @@ public class ServiceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createService(@RequestBody Services service) {
-        return new ResponseEntity<>(serviceMapper.serviceToDto(serviceService.createService(service)), HttpStatus.CREATED);
+    public ResponseEntity<?> createService(@RequestBody Services service, Principal principal) {
+
+        return new ResponseEntity<>(serviceMapper.serviceToDto(serviceService.createService(service, principal.getName())), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")

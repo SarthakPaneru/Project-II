@@ -19,10 +19,13 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private LocalDateTime bookingStart;
-    private LocalDateTime bookingEnd;
+    private Long bookingStart;
+    private Long bookingEnd;
     @ManyToOne
     private Barber barber;
     @ManyToOne
     private Customer customer;
+    private AppointmentStatus status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Services services;
 }

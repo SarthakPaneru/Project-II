@@ -23,5 +23,6 @@ public class Services {
     private String serviceTimeInMinutes;
     @ManyToOne(fetch = FetchType.LAZY)
     private Barber barber;
+    @Enumerated(EnumType.STRING)
     private Category category;
 }

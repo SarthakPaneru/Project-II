@@ -2,6 +2,7 @@ package com.example.hamro_barber.service.serviceImpl;
 
 import com.example.hamro_barber.entity.Barber;
 import com.example.hamro_barber.entity.User;
+import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.repository.BarberRepository;
@@ -45,6 +46,12 @@ public class BarberServiceImpl implements BarberService {
         } else {
             throw new ResourceNotFoundException("User not found");
         }
+    }
+
+    @Override
+    public Barber findBarberByEmail(String email) {
+        System.out.println(email);
+        return barberRepository.findBarberByUser_Email(email).orElseThrow(() -> new CustomException("Barber with such email not found"));
     }
 
     @Override

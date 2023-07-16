@@ -1,5 +1,6 @@
 package com.example.hamro_barber.entity.dto;
 
+import com.example.hamro_barber.constants.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ public class ServiceDto {
     private String fee;
     private String serviceTimeInMinutes;
     private BarberDto barber;
+    private Category category;
 }

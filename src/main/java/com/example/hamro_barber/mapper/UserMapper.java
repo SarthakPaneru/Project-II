@@ -9,7 +9,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(target = "password", ignore = true)
     UserDto userToDto(User user);
     User dtoToUser(UserDto userDto);
     List<UserDto> listUserToDto(List<User> users);

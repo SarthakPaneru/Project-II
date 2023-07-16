@@ -4,10 +4,13 @@ import com.example.hamro_barber.entity.Services;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.repository.ServiceRepository;
+import com.example.hamro_barber.service.BarberService;
 import com.example.hamro_barber.service.ServiceService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +18,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ServiceServiceImpl implements ServiceService {
     private final ServiceRepository serviceRepository;
+    private final BarberService barberService;
     @Override
-    public Services createService(Services services) {
+    public Services createService(Services services, String email) {
+        services.setBarber(barberService.findBarberByEmail(email));
         return serviceRepository.save(services);
     }
 
