@@ -1,10 +1,9 @@
 package com.example.hamro_barber.service;
 
-import com.example.hamro_barber.entity.Appointment;
-import com.example.hamro_barber.entity.dto.AppointmentRegisterDto;
+import com.example.hamro_barber.model.Appointment;
+import com.example.hamro_barber.model.dto.AppointmentRegisterDto;
 import com.example.hamro_barber.helper.ApiResponse;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AppointmentService {

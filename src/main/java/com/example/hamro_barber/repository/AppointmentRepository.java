@@ -1,12 +1,10 @@
 package com.example.hamro_barber.repository;
 
-import com.example.hamro_barber.entity.Appointment;
+import com.example.hamro_barber.model.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,4 +30,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
                     "and (:bookingEnd BETWEEN a.booking_start and a.booking_end)\n" +
                     "limit 1")
     Optional<Appointment> checkCustomerAvailability(@Param("customerId") Integer customerId, @Param("bookingStart")  Long bookingStart, @Param("bookingEnd") Long bookingEnd);
+
+    @Query(nativeQuery = true,
+        value = "")
+    List<Appointment> findUpcomingAppointmentOfCustomer(@Param("customerId") Integer customerId);
 }

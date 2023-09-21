@@ -1,14 +1,12 @@
-package com.example.hamro_barber.entity;
+package com.example.hamro_barber.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.io.File;
 import java.util.List;
 
 @Entity

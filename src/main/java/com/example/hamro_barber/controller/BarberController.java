@@ -1,18 +1,15 @@
 package com.example.hamro_barber.controller;
 
-import com.example.hamro_barber.entity.Barber;
-import com.example.hamro_barber.entity.dto.BarberDto;
+import com.example.hamro_barber.model.Barber;
+import com.example.hamro_barber.model.dto.BarberDto;
 import com.example.hamro_barber.mapper.BarberMapper;
 import com.example.hamro_barber.service.serviceImpl.BarberServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 

@@ -1,9 +1,8 @@
 package com.example.hamro_barber.mapper;
 
-import com.example.hamro_barber.entity.User;
-import com.example.hamro_barber.entity.dto.UserDto;
+import com.example.hamro_barber.model.User;
+import com.example.hamro_barber.model.dto.UserDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 

@@ -1,16 +1,14 @@
 package com.example.hamro_barber.service.serviceImpl;
 
-import com.example.hamro_barber.entity.Services;
+import com.example.hamro_barber.model.Services;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.repository.ServiceRepository;
 import com.example.hamro_barber.service.BarberService;
 import com.example.hamro_barber.service.ServiceService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 

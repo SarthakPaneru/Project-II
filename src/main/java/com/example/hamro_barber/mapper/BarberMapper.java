@@ -1,9 +1,9 @@
 package com.example.hamro_barber.mapper;
 
-import com.example.hamro_barber.entity.Barber;
-import com.example.hamro_barber.entity.Services;
-import com.example.hamro_barber.entity.dto.BarberDto;
-import com.example.hamro_barber.entity.dto.ServiceDto;
+import com.example.hamro_barber.model.Barber;
+import com.example.hamro_barber.model.Services;
+import com.example.hamro_barber.model.dto.BarberDto;
+import com.example.hamro_barber.model.dto.ServiceDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

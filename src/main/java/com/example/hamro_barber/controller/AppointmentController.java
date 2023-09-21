@@ -1,7 +1,6 @@
 package com.example.hamro_barber.controller;
 
-import com.example.hamro_barber.entity.Appointment;
-import com.example.hamro_barber.entity.dto.AppointmentRegisterDto;
+import com.example.hamro_barber.model.dto.AppointmentRegisterDto;
 import com.example.hamro_barber.mapper.AppointmentMapper;
 import com.example.hamro_barber.service.AppointmentService;
 import org.springframework.http.HttpStatus;
@@ -43,4 +42,9 @@ public class AppointmentController {
     public ResponseEntity<?> getCustomerAppointment(@PathVariable Integer customerId) {
         return new ResponseEntity<>(appointmentMapper.listAppointmentToDto(appointmentService.getAppointmentsOfCustomer(customerId)), HttpStatus.OK);
     }
+
+//    @GetMapping("/get/upcoming")
+//    public ResponseEntity<?> getAppointmentUpcoming() {
+//        return new ResponseEntity<>(appointmentMapper.listAppointmentToDto(appointmentService.getAppointmentsOfCustomer()))
+//    }
 }

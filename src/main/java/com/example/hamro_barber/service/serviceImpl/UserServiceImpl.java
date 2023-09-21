@@ -1,19 +1,18 @@
 package com.example.hamro_barber.service.serviceImpl;
 
-import com.example.hamro_barber.entity.User;
-import com.example.hamro_barber.entity.dto.UserDto;
+import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.exception.BadRequestException;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.AuthResponse;
 import com.example.hamro_barber.helper.LoginRequest;
 import com.example.hamro_barber.helper.SignUpRequest;
-import com.example.hamro_barber.mapper.UserMapper;
 import com.example.hamro_barber.repository.UserRepository;
 import com.example.hamro_barber.security.TokenProvider;
+import com.example.hamro_barber.service.FileHandleService;
 import com.example.hamro_barber.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
-    private final UserMapper userMapper;
+    private final FileHandleService fileHandleService;
 
     @Override
     public User findUserByEmail(String email) {
@@ -111,5 +111,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer userId) {
         userRepository.delete(findUserById(userId));
+    }
+
+    @Override
+    public void saveImage(MultipartFile file) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = findUserByEmail(auth.getName());
+
+        String imageName = fileHandleService.uploadImage(file, user);
+        user.setImageUrl(imageName);
+        userRepository.save(user);
+    }
+
+    @Override
+    public Resource loadImage(Integer userId) {
+        User user = findUserById(userId);
+        String imageName = user.getImageUrl();
+
+        return fileHandleService.loadImage(imageName);
     }
 }

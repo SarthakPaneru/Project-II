@@ -1,6 +1,6 @@
 package com.example.hamro_barber.controller;
 
-import com.example.hamro_barber.entity.Customer;
+import com.example.hamro_barber.model.Customer;
 import com.example.hamro_barber.mapper.CustomerMapper;
 import com.example.hamro_barber.service.serviceImpl.CustomerServiceImpl;
 import lombok.AllArgsConstructor;

@@ -1,15 +1,24 @@
 package com.example.hamro_barber.controller;
 
-import com.example.hamro_barber.entity.dto.PasswordChangeDto;
+import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.mapper.UserMapper;
+import com.example.hamro_barber.model.validation.ImageFileValidator;
+import com.example.hamro_barber.model.validation.ValidImageFile;
 import com.example.hamro_barber.service.serviceImpl.UserServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.security.Principal;
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/user")
@@ -17,6 +26,7 @@ import java.util.Arrays;
 public class UserController {
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
+    private final ResourceLoader resourceLoader;
 
     @GetMapping("/get-all")
     public ResponseEntity<?> getAll() {
@@ -46,4 +56,22 @@ public class UserController {
         return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
 
+    @PutMapping("/image/save")
+    @Validated
+    @ValidImageFile
+    public ResponseEntity<?> saveImage( @RequestPart("file") @NotNull MultipartFile file) {
+        System.out.println("File size: " + file.getSize());
+        userService.saveImage(file);
+        ApiResponse apiResponse = new ApiResponse(true, "Image uploaded");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}/get-image")
+    public ResponseEntity<?> getImage(@PathVariable Integer userId, HttpServletResponse response) throws IOException {
+        userService.findUserById(userId);
+        MediaType mediaType = MediaType.IMAGE_JPEG;
+        return ResponseEntity.ok()
+                .contentType(mediaType)
+                .body(userService.loadImage(userId));
+    }
 }

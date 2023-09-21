@@ -1,4 +1,4 @@
-package com.example.hamro_barber.entity.dto;
+package com.example.hamro_barber.model.dto;
 
 import com.example.hamro_barber.helper.UserRole;
 import lombok.AllArgsConstructor;

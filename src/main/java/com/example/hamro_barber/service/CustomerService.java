@@ -1,6 +1,6 @@
 package com.example.hamro_barber.service;
 
-import com.example.hamro_barber.entity.Customer;
+import com.example.hamro_barber.model.Customer;
 import com.example.hamro_barber.helper.ApiResponse;
 
 import java.util.List;

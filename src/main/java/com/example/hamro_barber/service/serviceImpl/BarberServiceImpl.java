@@ -1,7 +1,7 @@
 package com.example.hamro_barber.service.serviceImpl;
 
-import com.example.hamro_barber.entity.Barber;
-import com.example.hamro_barber.entity.User;
+import com.example.hamro_barber.model.Barber;
+import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;
@@ -12,7 +12,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,7 +21,6 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,12 +105,15 @@ public class BarberServiceImpl implements BarberService {
     public String load(Integer barberId) {
         Barber barber = findBarberById(barberId);
         String imageUrl = barber.getImageUrl();
+        System.out.println(imageUrl);
         try {
             File file = new ClassPathResource(
                     "static/" + imageUrl).getFile();
+            System.out.println(file.toURI());
             Resource resource = new UrlResource(file.toURI());
 
             if (resource.exists() || resource.isReadable()) {
+                System.out.println("Img: " + imageUrl);
                 return imageUrl;
             } else {
                 throw new RuntimeException("Could not read the file!");

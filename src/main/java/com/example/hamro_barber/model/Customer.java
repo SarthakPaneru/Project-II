@@ -1,4 +1,4 @@
-package com.example.hamro_barber.entity;
+package com.example.hamro_barber.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.example.hamro_barber.service.serviceImpl;
 
-import com.example.hamro_barber.entity.Customer;
-import com.example.hamro_barber.entity.User;
+import com.example.hamro_barber.model.Customer;
+import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;

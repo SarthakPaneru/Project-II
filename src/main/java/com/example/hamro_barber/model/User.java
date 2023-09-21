@@ -1,4 +1,4 @@
-package com.example.hamro_barber.entity;
+package com.example.hamro_barber.model;
 
 import com.example.hamro_barber.helper.UserRole;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.util.Collection;
 
 @Entity

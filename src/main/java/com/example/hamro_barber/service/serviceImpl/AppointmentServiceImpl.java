@@ -1,9 +1,9 @@
 package com.example.hamro_barber.service.serviceImpl;
 
-import com.example.hamro_barber.entity.Appointment;
-import com.example.hamro_barber.entity.Barber;
-import com.example.hamro_barber.entity.Customer;
-import com.example.hamro_barber.entity.dto.AppointmentRegisterDto;
+import com.example.hamro_barber.model.Appointment;
+import com.example.hamro_barber.model.Barber;
+import com.example.hamro_barber.model.Customer;
+import com.example.hamro_barber.model.dto.AppointmentRegisterDto;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;
