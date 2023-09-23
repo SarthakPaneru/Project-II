@@ -3,7 +3,7 @@ package com.example.hamro_barber.controller;
 import com.example.hamro_barber.model.Services;
 import com.example.hamro_barber.model.dto.ServiceDto;
 import com.example.hamro_barber.mapper.ServiceMapper;
-import com.example.hamro_barber.service.serviceImpl.ServiceServiceImpl;
+import com.example.hamro_barber.service.serviceImpl.ServicesServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.security.Principal;
 @AllArgsConstructor
 @RequestMapping("/service")
 public class ServiceController {
-    private final ServiceServiceImpl serviceService;
+    private final ServicesServiceImpl serviceService;
     private final ServiceMapper serviceMapper;
 
     @GetMapping("/get-all")

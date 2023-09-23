@@ -5,7 +5,7 @@ import com.example.hamro_barber.helper.ApiResponse;
 
 import java.util.List;
 
-public interface ServiceService {
+public interface ServicesService {
     Services createService(Services services, String email);
     List<Services> getAllServices();
     Services getService(Integer serviceId);

@@ -1,5 +1,8 @@
 package com.example.hamro_barber.controller;
 
+import com.example.hamro_barber.helper.UserRole;
+import com.example.hamro_barber.mapper.BarberMapper;
+import com.example.hamro_barber.model.Barber;
 import com.example.hamro_barber.model.Customer;
 import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.helper.LoginRequest;
@@ -24,14 +27,24 @@ public class AuthController {
     private final CustomerServiceImpl customerService;
     private final BarberServiceImpl barberService;
     private final CustomerMapper customerMapper;
+    private final BarberMapper barberMapper;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, HttpServletRequest request) {
         User registeredUser = userService.registerUser(signUpRequest, request);
-        Customer customer = new Customer();
-        customer.setUser(registeredUser);
-        Customer registeredCustomer = customerService.createCustomer(customer);
-        return new ResponseEntity<>(customerMapper.customerToDto(registeredCustomer), HttpStatus.CREATED);
+        if (registeredUser.getUserRole().equals(UserRole.CUSTOMER)) {
+            Customer customer = new Customer();
+            customer.setUser(registeredUser);
+            Customer registeredCustomer = customerService.createCustomer(customer);
+            return new ResponseEntity<>(customerMapper.customerToDto(registeredCustomer), HttpStatus.CREATED);
+        } else if (registeredUser.getUserRole().equals(UserRole.BARBER)) {
+            Barber barber = new Barber();
+            barber.setUser(registeredUser);
+            barber = barberService.createBarber(barber);
+            return new ResponseEntity<>(barberMapper.barberToDto(barber), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("USER ROLE NOT SELECTED", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/login")

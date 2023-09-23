@@ -54,8 +54,6 @@ public class BarberServiceImpl implements BarberService {
 
     @Override
     public Barber createBarber(Barber barber) {
-        User user = userService.findUserById(barber.getUser().getId());
-        barber.setUser(user);
         return barberRepository.save(barber);
     }
 

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,7 +24,8 @@ public class Appointment {
     private Barber barber;
     @ManyToOne
     private Customer customer;
+    @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Services services;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Services> services;
 }

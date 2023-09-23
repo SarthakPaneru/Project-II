@@ -5,7 +5,7 @@ import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.repository.ServiceRepository;
 import com.example.hamro_barber.service.BarberService;
-import com.example.hamro_barber.service.ServiceService;
+import com.example.hamro_barber.service.ServicesService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class ServiceServiceImpl implements ServiceService {
+public class ServicesServiceImpl implements ServicesService {
     private final ServiceRepository serviceRepository;
     private final BarberService barberService;
     @Override
