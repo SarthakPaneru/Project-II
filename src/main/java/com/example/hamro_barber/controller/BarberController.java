@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/barber")
@@ -55,5 +56,23 @@ public class BarberController {
     public void getImage(@PathVariable Integer barberId, HttpServletResponse response) throws IOException {
         barberService.findBarberById(barberId);
         response.sendRedirect(barberService.load(barberId));
+    }
+
+    @PutMapping("{barberId}/update/location")
+    public ResponseEntity<?> updateLocation(@PathVariable Integer barberId, @RequestBody BarberDto barber) {
+        Barber existingBarber = barberService.findBarberById(barberId);
+        existingBarber.setLatitude(barber.getLatitude());
+        existingBarber.setLongitude(barber.getLongitude());
+        existingBarber = barberService.updateBarber(existingBarber);
+        return new ResponseEntity<>(barberMapper.barberToDto(existingBarber), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/nearest")
+    public ResponseEntity<?> getNearestBarbers(
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude
+    ) {
+        List<Barber> barbers = barberService.findNearestBarbers(latitude, longitude);
+        return new ResponseEntity<>(barberMapper.listBarberToDto(barbers), HttpStatus.OK);
     }
 }

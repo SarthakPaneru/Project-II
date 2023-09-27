@@ -2,6 +2,7 @@ package com.example.hamro_barber.helper;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -25,4 +26,6 @@ public class SignUpRequest {
     private String firstName;
     private String lastName;
     private UserRole userRole;
+    @Nullable
+    private String panNo;
 }

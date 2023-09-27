@@ -3,6 +3,7 @@ package com.example.hamro_barber.controller;
 import com.example.hamro_barber.model.dto.AppointmentRegisterDto;
 import com.example.hamro_barber.mapper.AppointmentMapper;
 import com.example.hamro_barber.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +40,10 @@ public class AppointmentController {
     }
 
     @GetMapping("/get/customer/{customerId}")
-    public ResponseEntity<?> getCustomerAppointment(@PathVariable Integer customerId) {
-        return new ResponseEntity<>(appointmentMapper.listAppointmentToDto(appointmentService.getAppointmentsOfCustomer(customerId)), HttpStatus.OK);
+    public ResponseEntity<?> getCustomerAppointment(
+            @PathVariable("customerId") Integer customerId,
+            @RequestParam(required = false, name = "status") String status) {
+        return new ResponseEntity<>(appointmentMapper.listAppointmentToDto(appointmentService.getAppointmentsOfCustomer(customerId, status)), HttpStatus.OK);
     }
 
 //    @GetMapping("/get/upcoming")

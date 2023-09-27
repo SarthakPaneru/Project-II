@@ -33,6 +33,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     @Query(nativeQuery = true,
         value = "SELECT * FROM appointment a \n" +
-                "WHERE customer_id = :customerId and booking_start > CURRENT_TIMESTAMP()")
-    List<Appointment> findUpcomingAppointmentOfCustomer(@Param("customerId") Integer customerId);
+                "WHERE customer_id = :customerId and a.status  like :status\n" +
+                "and booking_start > UNIX_TIMESTAMP()")
+    List<Appointment> findAppointmentOfCustomerByStatus(@Param("customerId") Integer customerId, @Param("status") String status);
+
+
+
 }

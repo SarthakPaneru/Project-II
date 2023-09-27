@@ -1,9 +1,6 @@
 package com.example.hamro_barber.service.serviceImpl;
 
-import com.example.hamro_barber.model.Appointment;
-import com.example.hamro_barber.model.Barber;
-import com.example.hamro_barber.model.Customer;
-import com.example.hamro_barber.model.Services;
+import com.example.hamro_barber.model.*;
 import com.example.hamro_barber.model.dto.AppointmentRegisterDto;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
@@ -55,6 +52,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setBookingEnd(registerDto.getBookingEnd());
         appointment.setBookingStart(registerDto.getBookingStart());
         appointment.setServices(servicesList);
+        appointment.setStatus(AppointmentStatus.UPCOMING);
         return appointmentRepository.save(appointment);
     }
 
@@ -81,10 +79,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsOfCustomer(Integer customerId) {
+    public List<Appointment> getAppointmentsOfCustomer(Integer customerId, String status) {
         customerService.findCustomerById(customerId);
-        List<Appointment> appointmentsByCustomerId = appointmentRepository.findAppointmentsByCustomer_Id((customerId));
-        return appointmentsByCustomerId;
+        if (status == null) {
+            return appointmentRepository.findAppointmentsByCustomer_Id((customerId));
+        } else {
+            return appointmentRepository.findAppointmentOfCustomerByStatus(customerId, status);
+        }
     }
 
     @Override

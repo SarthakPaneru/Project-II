@@ -15,4 +15,6 @@ public interface BarberService {
     ApiResponse deleteBarber(Integer barberId);
     void saveImage(MultipartFile file, Integer barberId);
     String load(Integer barberId);
+
+    List<Barber> findNearestBarbers(Double latitude, Double longitude);
 }

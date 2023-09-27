@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -22,6 +23,8 @@ public class BarberDto {
     private String imageUrl;
     private List<ServiceDto> services;
     private Float rating;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
 
     public String getName() {
         return user.getFirstName() + " " + user.getLastName();

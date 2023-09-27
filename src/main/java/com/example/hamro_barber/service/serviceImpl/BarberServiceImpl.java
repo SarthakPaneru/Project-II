@@ -14,6 +14,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -21,8 +22,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -122,5 +122,66 @@ public class BarberServiceImpl implements BarberService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public List<Barber> findNearestBarbers(Double latitude, Double longitude) {
+        List<Barber> barbers = barberRepository.findNearestBarbers(latitude+0.03, latitude-0.03, longitude+0.03, longitude-0.03);
+        Map<Integer, Double> map = new HashMap<>();
+        Map<Integer, Double> sortedMap = new HashMap<>();
+        ArrayList<Double> list = new ArrayList<>();
+        for (Barber barber: barbers) {
+            Double dist = findDistance(latitude, longitude, barber.getLatitude().doubleValue(), barber.getLongitude().doubleValue());
+            System.out.println(barber.getId() + ": " + dist);
+            map.put(barber.getId(), dist);
+        }
+        for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+            list.add(entry.getValue());
+        }
+        list.sort(new Comparator<Double>() {
+            public int compare(Double str, Double str1) {
+                return (str).compareTo(str1);
+            }
+        });
+
+        List<Barber> barberList = new ArrayList<>();
+        for (Double str : list) {
+            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+                if (entry.getValue().equals(str)) {
+                    sortedMap.put(entry.getKey(), str);
+                    Barber barber = barberRepository.findById(entry.getKey()).get();
+                    barberList.add(barber);
+                }
+            }
+        }
+
+
+        return barberList;
+    }
+
+    private Double findDistance(Double lat1, Double lon1, Double lat2, Double lon2) {
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+        System.out.println(lon1+ "  " + lon2 + "  " + lat1 + "  " + lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        System.out.println("a = " + a);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers
+        double r = 6371;
+        System.out.println("c*r = " + c*r);
+
+        // calculate the result
+        return (c * r);
     }
 }
