@@ -40,4 +40,6 @@ public class Barber {
     private BigDecimal longitude;
     @Column(name = "latitude", precision = 10, scale = 7)
     private BigDecimal latitude;
+    @Transient
+    private Double distance;
 }

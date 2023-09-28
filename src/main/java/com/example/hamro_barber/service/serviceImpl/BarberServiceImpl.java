@@ -45,6 +45,10 @@ public class BarberServiceImpl implements BarberService {
             throw new ResourceNotFoundException("User not found");
         }
     }
+    @Override
+    public List<Barber> findBarbersByIds(List<Integer> barbersId) {
+        return barberRepository.findAllById(barbersId);
+    }
 
     @Override
     public Barber findBarberByEmail(String email) {
@@ -150,6 +154,7 @@ public class BarberServiceImpl implements BarberService {
                 if (entry.getValue().equals(str)) {
                     sortedMap.put(entry.getKey(), str);
                     Barber barber = barberRepository.findById(entry.getKey()).get();
+                    barber.setDistance(str);
                     barberList.add(barber);
                 }
             }
