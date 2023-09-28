@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/auth/**", "/api/v1/registration/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()

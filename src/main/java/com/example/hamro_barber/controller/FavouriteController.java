@@ -19,7 +19,6 @@ public class FavouriteController {
     private FavouriteServiceImpl favouriteService;
     private CustomerServiceImpl customerService;
     private FavouriteMapper favouriteMapper;
-    private BarberMapper barberMapper;
 
     @GetMapping("/get/customer/{customerId}")
     public ResponseEntity<?> getFavouritesOfCustomer(@PathVariable("customerId") Integer customerId) {

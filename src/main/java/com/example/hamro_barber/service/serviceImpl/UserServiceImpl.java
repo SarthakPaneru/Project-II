@@ -1,5 +1,6 @@
 package com.example.hamro_barber.service.serviceImpl;
 
+import com.example.hamro_barber.email.EmailService;
 import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.exception.BadRequestException;
 import com.example.hamro_barber.exception.CustomException;
@@ -12,6 +13,7 @@ import com.example.hamro_barber.security.TokenProvider;
 import com.example.hamro_barber.service.FileHandleService;
 import com.example.hamro_barber.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
     private final FileHandleService fileHandleService;
+    private final EmailService emailService;
 
     @Override
     public User findUserByEmail(String email) {
@@ -64,8 +67,13 @@ public class UserServiceImpl implements UserService {
             user.setLastName(signUpRequest.getLastName());
             user.setUserRole(signUpRequest.getUserRole());
 
-            return userRepository.save(user);
+            user = userRepository.save(user);
+
+            emailService.sendEmail(user);
+
+            return user;
         }
+
         throw new BadRequestException("User already exists");
     }
 

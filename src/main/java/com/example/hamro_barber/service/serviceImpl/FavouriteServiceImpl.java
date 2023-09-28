@@ -50,12 +50,22 @@ public class FavouriteServiceImpl implements FavouriteService {
 
     @Override
     public Favourite addFavouriteBarber(Integer barberId, Customer customer) {
-        Favourite favourite = new Favourite();
-        favourite.setCustomer(customer);
+        Favourite existingFavourite = findFavouritesOfCustomer(customer.getId());
 
+        if (existingFavourite == null) {
+
+            Favourite favourite = new Favourite();
+            favourite.setCustomer(customer);
+
+            Barber barber = barberService.findBarberById(barberId);
+            List<Barber> barbers = List.of(barber);
+
+            favourite.setBarbers(barbers);
+
+            return favouriteRepository.save(favourite);
+        }
         List<Barber> barbers = findFavouriteBarbers(customer.getId());
         Barber barber = barberService.findBarberById(barberId);
-
         if (!barbers.contains(barber)) {
             if (barbers.isEmpty()) {
                 barbers = List.of(barber);
@@ -63,19 +73,20 @@ public class FavouriteServiceImpl implements FavouriteService {
                 barbers.add(barber);
             }
         }
-        favourite.setBarbers(barbers);
+        existingFavourite.setBarbers(barbers);
 
-        return favouriteRepository.save(favourite);
+        return favouriteRepository.save(existingFavourite);
     }
 
     @Override
     public ApiResponse removeFavouriteBarber(Integer barberId, Customer customer) {
-        Favourite favourite = new Favourite();
+        Favourite favourite = findFavouritesOfCustomer(customer.getId());
         favourite.setCustomer(customer);
 
-        List<Barber> barbers = findFavouriteBarbers(customer.getId());
+        List<Barber> barbers = favourite.getBarbers();
         Barber barber = barberService.findBarberById(barberId);
 
+        assert barbers != null;
         barbers.remove(barber);
         favourite.setBarbers(barbers);
 
@@ -86,12 +97,23 @@ public class FavouriteServiceImpl implements FavouriteService {
 
     @Override
     public Favourite addFavouriteService(Integer serviceId, Customer customer) {
-        Favourite favourite = new Favourite();
-        favourite.setCustomer(customer);
 
+        Favourite existingFavourite = findFavouritesOfCustomer(customer.getId());
+
+        if (existingFavourite == null) {
+
+            Favourite favourite = new Favourite();
+            favourite.setCustomer(customer);
+
+            Services service = servicesService.getService(serviceId);
+            List<Services> services = List.of(service);
+
+            favourite.setServices(services);
+
+            return favouriteRepository.save(favourite);
+        }
         List<Services> services = findFavouriteServices(customer.getId());
         Services service = servicesService.getService(serviceId);
-
         if (!services.contains(service)) {
             if (services.isEmpty()) {
                 services = List.of(service);
@@ -99,19 +121,21 @@ public class FavouriteServiceImpl implements FavouriteService {
                 services.add(service);
             }
         }
-        favourite.setServices(services);
+        existingFavourite.setServices(services);
 
-        return favouriteRepository.save(favourite);
+        return favouriteRepository.save(existingFavourite);
+
     }
 
     @Override
     public ApiResponse removeFavouriteService(Integer serviceId, Customer customer) {
-        Favourite favourite = new Favourite();
+        Favourite favourite = findFavouritesOfCustomer(customer.getId());
         favourite.setCustomer(customer);
 
-        List<Services> services = findFavouriteServices(customer.getId());
+        List<Services> services = favourite.getServices();
         Services service = servicesService.getService(serviceId);
 
+        assert services != null;
         services.remove(service);
         favourite.setServices(services);
 
