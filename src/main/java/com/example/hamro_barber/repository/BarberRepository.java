@@ -20,4 +20,7 @@ public interface BarberRepository extends JpaRepository<Barber, Integer> {
             @Param("lowLatitude") Double lowLatitude,
             @Param("highLongitude") Double highLongitude,
             @Param("lowLongitude") Double lowLongitude);
+
+    @Override
+    List<Barber> findAllById(Iterable<Integer> integers);
 }

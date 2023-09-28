@@ -9,6 +9,7 @@ import java.util.List;
 public interface BarberService {
     List<Barber> getAllBarbers();
     Barber findBarberById(Integer barberId);
+    List<Barber> findBarbersByIds(List<Integer> barbersId);
     Barber findBarberByEmail(String email);
     Barber createBarber(Barber barber);
     Barber updateBarber(Barber barber);
