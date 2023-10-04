@@ -2,6 +2,7 @@ package com.example.hamro_barber.controller;
 
 import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.mapper.UserMapper;
+import com.example.hamro_barber.model.dto.PasswordChangeDto;
 import com.example.hamro_barber.model.validation.ImageFileValidator;
 import com.example.hamro_barber.model.validation.ValidImageFile;
 import com.example.hamro_barber.service.serviceImpl.UserServiceImpl;
@@ -45,11 +46,10 @@ public class UserController {
         return new ResponseEntity<>(principal.getName(), HttpStatus.OK);
     }
 
-//    @PutMapping("update-password")
-//    public ResponseEntity<?> updatePassword(@RequestBody PasswordChangeDto changePassword) {
-//        return new ResponseEntity<>();
-//    }
-
+    @PutMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody PasswordChangeDto passwordChangeDto, Principal principal) {
+        return new ResponseEntity<>(userService.updatePassword(passwordChangeDto, principal.getName()), HttpStatus.OK);
+    }
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
         userService.deleteUser(userId);

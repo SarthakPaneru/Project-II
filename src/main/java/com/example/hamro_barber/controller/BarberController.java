@@ -72,6 +72,8 @@ public class BarberController {
             @RequestParam("latitude") Double latitude,
             @RequestParam("longitude") Double longitude
     ) {
+        System.out.println(latitude);
+        System.out.println(longitude);
         List<Barber> barbers = barberService.findNearestBarbers(latitude, longitude);
         return new ResponseEntity<>(barberMapper.listBarberToDto(barbers), HttpStatus.OK);
     }

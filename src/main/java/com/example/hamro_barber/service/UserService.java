@@ -4,7 +4,9 @@ import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.helper.AuthResponse;
 import com.example.hamro_barber.helper.LoginRequest;
 import com.example.hamro_barber.helper.SignUpRequest;
+import com.example.hamro_barber.model.dto.PasswordChangeDto;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,4 +26,10 @@ public interface UserService {
     void deleteUser(Integer userId);
     void saveImage(MultipartFile file);
     Resource loadImage(Integer userId);
+
+    String forgotPassword(String email);
+
+    String confirmAndUpdatePassword(PasswordChangeDto passwordChangeDto);
+
+    String updatePassword(PasswordChangeDto passwordChangeDto, String principalEmail);
 }

@@ -8,6 +8,7 @@ import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.AuthResponse;
 import com.example.hamro_barber.helper.LoginRequest;
 import com.example.hamro_barber.helper.SignUpRequest;
+import com.example.hamro_barber.model.dto.PasswordChangeDto;
 import com.example.hamro_barber.repository.UserRepository;
 import com.example.hamro_barber.security.TokenProvider;
 import com.example.hamro_barber.service.FileHandleService;
@@ -80,6 +81,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthResponse loginUser(LoginRequest loginRequest) {
         try {
+            User user = findUserByEmail(loginRequest.getEmail());
+            if (!user.getUserRole().equals(loginRequest.getUserRole())) {
+                throw new CustomException("Username Password do not match");
+            }
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             System.out.println("Here: " + authentication.getName());
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -138,5 +143,47 @@ public class UserServiceImpl implements UserService {
         String imageName = user.getImageUrl();
 
         return fileHandleService.loadImage(imageName);
+    }
+
+    @Override
+    public String forgotPassword(String email) {
+        User user = findUserByEmail(email);
+        emailService.sendForgotPasswordEmail(user);
+        return "Email Sent!! Check Your mail";
+    }
+
+    @Override
+    public String confirmAndUpdatePassword(PasswordChangeDto passwordChangeDto) {
+        if ((passwordChangeDto.getNewPassword().equals(passwordChangeDto.getConfirmNewPassword()))) {
+            User existingUser = findUserByEmail(passwordChangeDto.getEmail());
+            emailService.getConfirmationTokenService().confirmToken(passwordChangeDto.getOtp());
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            existingUser.setPassword(bCryptPasswordEncoder.encode(passwordChangeDto.getConfirmNewPassword()));
+            userRepository.save(existingUser);
+            return "Password Updated";
+        } else {
+            throw new CustomException("Passwords do not match");
+        }
+    }
+
+    @Override
+    public String updatePassword(PasswordChangeDto passwordChangeDto, String principalEmail) {
+        if (principalEmail.equals(passwordChangeDto.getEmail())) {
+            if ((passwordChangeDto.getNewPassword().equals(passwordChangeDto.getConfirmNewPassword()))) {
+                User existingUser = findUserByEmail(passwordChangeDto.getEmail());
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+                if (bCryptPasswordEncoder.matches(passwordChangeDto.getCurrentPassword(), existingUser.getPassword())) {
+                    existingUser.setPassword(bCryptPasswordEncoder.encode(passwordChangeDto.getConfirmNewPassword()));
+                } else {
+                    throw new BadCredentialsException("Password do not match");
+                }
+                userRepository.save(existingUser);
+                return "Password Updated";
+            } else {
+                throw new CustomException("Passwords do not match");
+            }
+        } else {
+            throw new BadRequestException("You are not authenticated");
+        }
     }
 }

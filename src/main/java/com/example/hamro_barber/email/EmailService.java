@@ -15,9 +15,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
+import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -44,11 +47,34 @@ public class EmailService implements EmailSender{
                 LocalDateTime.now().plusMinutes(15),
                 user
         );
+        String link;
         confirmationTokenService.saveConfirmationToken(confirmationToken);
+        if (ipAddress.equals("localhost")) {
+            ipAddress="https://hamro-barber.onrender.com";
+            link = "https://hamro-barber.onrender.com/api/v1/registration/confirm?token=" + token;
 
-        String link = "http://" + ipAddress + ":8080/api/v1/registration/confirm?token=" + token;
+        } else {
+            link = "http://" + ipAddress + ":8080/api/v1/registration/confirm?token=" + token;
+
+        }
+
 
         send(user.getEmail(), buildEmail(user.getFirstName(), link));
+
+    }
+
+    @Override
+    public void sendForgotPasswordEmail(User user) {
+        int otp = new Random().nextInt(9000) + 1000;
+        String token = Integer.toString(otp);
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                user
+        );
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        send(user.getEmail(), "OTP Password: " + token);
 
     }
 
@@ -56,15 +82,40 @@ public class EmailService implements EmailSender{
     @Async
     public void send(String to, String email) {
         try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "UTF-8");
-            helper.setText(email, true);
-            helper.setTo(to);
-            helper.setSubject("Confirm your email");
-            helper.setFrom("noreply@hamrobarber.com");
-            mailSender.send(mimeMessage);
+            // remote ko localhost
+            if( ipAddress.equals("localhost") ) {
+                Properties props = new Properties();
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.port", "587");
+                Session session = Session.getInstance(props, new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("bhojrajmishra4@gmail.com", "gauabpeibkdijlxf");
+                    }
+                });
+
+
+                Message mimeMessage1 = new MimeMessage(session);
+                mimeMessage1.setFrom(new InternetAddress("bhojrajmishra4@gmail.com"));
+                mimeMessage1.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+                mimeMessage1.setSubject("Confirm your email");
+                mimeMessage1.setText(email);
+
+                Transport.send(mimeMessage1);
+            } else {
+                // IpAddress of Laptop from router
+                MimeMessage mimeMessage = mailSender.createMimeMessage();
+                MimeMessageHelper helper =
+                        new MimeMessageHelper(mimeMessage, "UTF-8");
+                helper.setText(email, true);
+                helper.setTo(to);
+                helper.setSubject("Confirm your email");
+                helper.setFrom("bhojrajmishra4@gmail.com");
+                mailSender.send(mimeMessage);
+            }
         }catch (MessagingException e) {
+            System.out.println("MESSAGE: " + e);
             LOGGER.error("failed to send email", e);
             throw new IllegalStateException("failed to send email"); // dont send actual error to user
         }

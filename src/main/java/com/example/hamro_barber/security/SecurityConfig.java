@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**", "/api/v1/registration/**").permitAll()
+                .antMatchers("/auth/**", "/api/v1/registration/**", "/user/**/get-image").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()
@@ -49,7 +49,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/images/**", "/js/**", "/auth/**");
+        return web -> web.ignoring().antMatchers("/images/**", "/js/**", "/auth/**", "/error/**");
     }
 
     @Bean

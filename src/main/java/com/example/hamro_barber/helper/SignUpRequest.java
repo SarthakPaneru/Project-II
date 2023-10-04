@@ -26,6 +26,5 @@ public class SignUpRequest {
     private String firstName;
     private String lastName;
     private UserRole userRole;
-    @Nullable
     private String panNo;
 }
