@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @AllArgsConstructor
@@ -27,29 +28,40 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors().and()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/auth/**", "/api/v1/registration/**", "/user/**/get-image").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().disable()
-                .exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .and()
-                .authenticationProvider(authenticationProvider())
+
+        http.authorizeHttpRequests(
+                authz -> authz
+                                .requestMatchers("/auth/**").permitAll()
+                                .anyRequest().authenticated())
+//                .formLogin(formLogin -> formLogin.loginPage("TODO").loginProcessingUrl("TODO")
+//                        .usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/", true));
+                .formLogin(formLogin -> formLogin.disable())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new RestAuthenticationEntryPoint()))
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .authenticationProvider(authenticationProvider());
+        return http.build();
+//         http.authorizeHttpRequests(authz->authz
+//
+//                .requestMatchers("/auth/**").permitAll()
+//                .anyRequest().authenticated()
+//                 .and()
+//                 .formLogin().disable()
+//                .exceptionHandling()
+//                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+//                .and()
+//                .authenticationProvider(authenticationProvider())
+//                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class));
+//                return http.build();
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/images/**", "/js/**", "/auth/**", "/error/**");
+
+        return web -> web.ignoring().requestMatchers("/images/**", "/js/**", "/auth/**");
     }
 
     @Bean

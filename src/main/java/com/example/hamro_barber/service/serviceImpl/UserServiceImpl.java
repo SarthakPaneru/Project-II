@@ -13,6 +13,7 @@ import com.example.hamro_barber.repository.UserRepository;
 import com.example.hamro_barber.security.TokenProvider;
 import com.example.hamro_barber.service.FileHandleService;
 import com.example.hamro_barber.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
@@ -25,7 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 

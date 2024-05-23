@@ -13,12 +13,12 @@ import com.example.hamro_barber.model.dto.PasswordChangeDto;
 import com.example.hamro_barber.service.serviceImpl.BarberServiceImpl;
 import com.example.hamro_barber.service.serviceImpl.CustomerServiceImpl;
 import com.example.hamro_barber.service.serviceImpl.UserServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")

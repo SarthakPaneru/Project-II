@@ -1,11 +1,17 @@
 package com.example.hamro_barber.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+<<<<<<< Updated upstream:src/main/java/com/example/hamro_barber/model/Appointment.java
 import javax.persistence.*;
+=======
+//import javax.persistence.*;
+import java.time.LocalDateTime;
+>>>>>>> Stashed changes:src/main/java/com/example/hamro_barber/entity/Appointment.java
 import java.util.List;
 
 @Entity

@@ -8,8 +8,10 @@ import com.example.hamro_barber.model.dto.PasswordChangeDto;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+
+//import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface UserService {
