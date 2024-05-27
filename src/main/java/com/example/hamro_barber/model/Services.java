@@ -1,10 +1,7 @@
 package com.example.hamro_barber.model;
 
-<<<<<<< Updated upstream:src/main/java/com/example/hamro_barber/model/Services.java
 import com.example.hamro_barber.constants.Category;
-=======
 import jakarta.persistence.*;
->>>>>>> Stashed changes:src/main/java/com/example/hamro_barber/entity/Services.java
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

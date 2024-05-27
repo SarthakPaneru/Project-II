@@ -4,13 +4,13 @@ import com.example.hamro_barber.model.Barber;
 import com.example.hamro_barber.model.dto.BarberDto;
 import com.example.hamro_barber.mapper.BarberMapper;
 import com.example.hamro_barber.service.serviceImpl.BarberServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 

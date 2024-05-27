@@ -10,12 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-<<<<<<< Updated upstream:src/main/java/com/example/hamro_barber/model/User.java
-import javax.persistence.*;
-=======
-//import javax.persistence.*;
-import java.awt.*;
->>>>>>> Stashed changes:src/main/java/com/example/hamro_barber/entity/User.java
 import java.util.Collection;
 import java.util.Collections;
 

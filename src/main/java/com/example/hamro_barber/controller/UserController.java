@@ -6,6 +6,8 @@ import com.example.hamro_barber.model.dto.PasswordChangeDto;
 import com.example.hamro_barber.model.validation.ImageFileValidator;
 import com.example.hamro_barber.model.validation.ValidImageFile;
 import com.example.hamro_barber.service.serviceImpl.UserServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
@@ -14,10 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.security.Principal;
 
