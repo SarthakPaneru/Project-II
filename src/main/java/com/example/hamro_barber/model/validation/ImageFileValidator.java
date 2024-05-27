@@ -1,9 +1,8 @@
 package com.example.hamro_barber.model.validation;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 public class ImageFileValidator implements ConstraintValidator<ValidImageFile, MultipartFile> {
 

@@ -1,12 +1,13 @@
 package com.example.hamro_barber.model;
 
 import com.example.hamro_barber.constants.Category;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 
 @Entity
 @Getter
