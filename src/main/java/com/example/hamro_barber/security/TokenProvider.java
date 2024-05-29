@@ -18,10 +18,12 @@ public class TokenProvider {
         Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
 
         System.out.println("Auth: " + authentication.isAuthenticated());
+        // TODO: add role to jwt token
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
+                .claim("roles", authentication.getAuthorities())
                 .signWith(
                         SignatureAlgorithm.HS512,
                         appProperties.getAuth().getTokenSecret())

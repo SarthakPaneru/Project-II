@@ -1,11 +1,13 @@
-package com.example.hamro_barber.entity;
+package com.example.hamro_barber.model;
 
+import com.example.hamro_barber.constants.Category;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 
 @Entity
 @Getter
@@ -22,4 +24,6 @@ public class Services {
     private String serviceTimeInMinutes;
     @ManyToOne(fetch = FetchType.LAZY)
     private Barber barber;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 }

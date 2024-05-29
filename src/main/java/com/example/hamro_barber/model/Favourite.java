@@ -1,12 +1,13 @@
-package com.example.hamro_barber.entity;
+package com.example.hamro_barber.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -14,18 +15,17 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Barber {
+public class Favourite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String panNo;
-    private boolean isOpened;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
-
+    @OneToMany
     @Nullable
-    @OneToMany(mappedBy = "barber", cascade = CascadeType.ALL)
+    private List<Barber> barbers;
+    @OneToMany
+    @Nullable
     private List<Services> services;
+    @OneToOne
+    @NotNull
+    private Customer customer;
 }

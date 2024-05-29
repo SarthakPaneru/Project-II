@@ -1,4 +1,4 @@
-package com.example.hamro_barber.entity.dto;
+package com.example.hamro_barber.model.dto;
 
 import com.example.hamro_barber.helper.UserRole;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,6 @@ import lombok.Setter;
 public class UserDto {
     private Integer id;
     private String email;
-    private String password;
     private String phone;
     private String firstName;
     private String lastName;

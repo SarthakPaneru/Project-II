@@ -10,10 +10,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @AllArgsConstructor
@@ -27,29 +28,44 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors().and()
-                .csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-                .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().disable()
-                .exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .and()
+
+
+        http.authorizeHttpRequests(
+                (authz) -> authz
+                 //       .requestMatchers("").permitAll()
+                                .anyRequest().authenticated())
+                //.formLogin(formLogin -> formLogin.loginPage("TODO").loginProcessingUrl("TODO"))
+//                        .usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/", true));
+
+//                .formLogin(AbstractHttpConfigurer::disable)
+                .formLogin(formLogin -> formLogin.disable())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new RestAuthenticationEntryPoint()))
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+//         http.authorizeHttpRequests(authz->authz
+//
+//                .requestMatchers("/auth/**").permitAll()
+//                .anyRequest().authenticated()
+//                 .and()
+//                 .formLogin().disable()
+//                .exceptionHandling()
+//                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+//                .and()
+//                .authenticationProvider(authenticationProvider())
+//                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class));
+////                return http.build();
+
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/images/**", "/js/**", "/auth/**");
+
+        return web -> web.ignoring().requestMatchers("/images/**", "/js/**","/auth/**");
     }
 
     @Bean

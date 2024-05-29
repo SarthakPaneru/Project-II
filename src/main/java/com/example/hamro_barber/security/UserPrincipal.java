@@ -1,6 +1,6 @@
 package com.example.hamro_barber.security;
 
-import com.example.hamro_barber.entity.User;
+import com.example.hamro_barber.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,13 +1,18 @@
 package com.example.hamro_barber.controller;
 
-import com.example.hamro_barber.entity.Barber;
-import com.example.hamro_barber.entity.dto.BarberDto;
+import com.example.hamro_barber.model.Barber;
+import com.example.hamro_barber.model.dto.BarberDto;
 import com.example.hamro_barber.mapper.BarberMapper;
 import com.example.hamro_barber.service.serviceImpl.BarberServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/barber")
@@ -39,5 +44,37 @@ public class BarberController {
     @DeleteMapping("/delete/{barberId}")
     public ResponseEntity<?> deletedBarber(@PathVariable Integer barberId) {
         return new ResponseEntity<>(barberService.deleteBarber(barberId), HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{barberId}/update-image")
+    public ResponseEntity<?> updateImage(MultipartFile file, @PathVariable Integer barberId) {
+        barberService.saveImage(file, barberId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @GetMapping("/{barberId}/get-image")
+    public void getImage(@PathVariable Integer barberId, HttpServletResponse response) throws IOException {
+        barberService.findBarberById(barberId);
+        response.sendRedirect(barberService.load(barberId));
+    }
+
+    @PutMapping("{barberId}/update/location")
+    public ResponseEntity<?> updateLocation(@PathVariable Integer barberId, @RequestBody BarberDto barber) {
+        Barber existingBarber = barberService.findBarberById(barberId);
+        existingBarber.setLatitude(barber.getLatitude());
+        existingBarber.setLongitude(barber.getLongitude());
+        existingBarber = barberService.updateBarber(existingBarber);
+        return new ResponseEntity<>(barberMapper.barberToDto(existingBarber), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/nearest")
+    public ResponseEntity<?> getNearestBarbers(
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude
+    ) {
+        System.out.println(latitude);
+        System.out.println(longitude);
+        List<Barber> barbers = barberService.findNearestBarbers(latitude, longitude);
+        return new ResponseEntity<>(barberMapper.listBarberToDto(barbers), HttpStatus.OK);
     }
 }
