@@ -83,7 +83,7 @@ public class EmailService implements EmailSender{
     public void send(String to, String email) {
         try {
             // remote ko localhost
-            if( ipAddress.equals("localhost") ) {
+//            if( ipAddress.equals("localhost") ) {
                 Properties props = new Properties();
                 props.put("mail.smtp.auth", "true");
                 props.put("mail.smtp.starttls.enable", "true");
@@ -91,29 +91,30 @@ public class EmailService implements EmailSender{
                 props.put("mail.smtp.port", "587");
                 Session session = Session.getInstance(props, new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("bhojrajmishra4@gmail.com", "gauabpeibkdijlxf");
+                        return new PasswordAuthentication("suman2020j@gmail.com", "gncbcytnbfbwqvir");
                     }
                 });
 
 
                 Message mimeMessage1 = new MimeMessage(session);
-                mimeMessage1.setFrom(new InternetAddress("bhojrajmishra4@gmail.com"));
+                mimeMessage1.setFrom(new InternetAddress("suman2020j@gmail.com"));
                 mimeMessage1.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
                 mimeMessage1.setSubject("Confirm your email");
                 mimeMessage1.setText(email);
 
                 Transport.send(mimeMessage1);
-            } else {
-                // IpAddress of Laptop from router
-                MimeMessage mimeMessage = mailSender.createMimeMessage();
-                MimeMessageHelper helper =
-                        new MimeMessageHelper(mimeMessage, "UTF-8");
-                helper.setText(email, true);
-                helper.setTo(to);
-                helper.setSubject("Confirm your email");
-                helper.setFrom("bhojrajmishra4@gmail.com");
-                mailSender.send(mimeMessage);
-            }
+//            }
+//            else {
+//                // IpAddress of Laptop from router
+//                MimeMessage mimeMessage = mailSender.createMimeMessage();
+//                MimeMessageHelper helper =
+//                        new MimeMessageHelper(mimeMessage, "UTF-8");
+//                helper.setText(email, true);
+//                helper.setTo(to);
+//                helper.setSubject("Confirm your email");
+//                helper.setFrom("bhojrajmishra4@gmail.com");
+//                mailSender.send(mimeMessage);
+//            }
         }catch (MessagingException e) {
             System.out.println("MESSAGE: " + e);
             LOGGER.error("failed to send email", e);
