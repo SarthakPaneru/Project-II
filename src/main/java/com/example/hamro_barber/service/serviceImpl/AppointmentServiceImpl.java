@@ -1,24 +1,25 @@
 package com.example.hamro_barber.service.serviceImpl;
 
+import com.example.hamro_barber.helper.MapCaseManipulation;
 import com.example.hamro_barber.model.*;
 import com.example.hamro_barber.model.dto.AppointmentRegisterDto;
 import com.example.hamro_barber.exception.CustomException;
 import com.example.hamro_barber.exception.ResourceNotFoundException;
 import com.example.hamro_barber.helper.ApiResponse;
+import com.example.hamro_barber.model.dto.BarberAppointmentDto;
 import com.example.hamro_barber.repository.AppointmentRepository;
 import com.example.hamro_barber.service.AppointmentService;
 import com.example.hamro_barber.service.BarberService;
 import com.example.hamro_barber.service.CustomerService;
 import com.example.hamro_barber.service.ServicesService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -125,5 +126,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         customerService.findCustomerById(customerId);
         Optional<Appointment> appointment = appointmentRepository.checkCustomerAvailability(customerId, bookingStart, bookingEnd);
         return appointment.isEmpty();
+    }
+
+    @Override
+    public List<BarberAppointmentDto> getUpcommingAppointmentsOfBarber(Integer barberId, String status) {
+        List<Map<String, Object>> results = appointmentRepository.getAppointmentOfBarber(barberId, status);
+        MapCaseManipulation mapCaseManipulation = new MapCaseManipulation();
+        results = mapCaseManipulation.keyToCamelCase(results);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return results.stream().map(map -> objectMapper.convertValue(map, BarberAppointmentDto.class)).collect(Collectors.toList());
     }
 }

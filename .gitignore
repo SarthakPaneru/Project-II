@@ -34,4 +34,5 @@ build/
 
 ### CUSTOM ###
 uploads/
-src/main/resources/application-dev.properties
+src/main/resources/application-dev2.properties
+src/main/resources/firebase_credentials.json

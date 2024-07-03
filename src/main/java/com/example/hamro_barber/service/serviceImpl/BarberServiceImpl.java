@@ -38,9 +38,9 @@ public class BarberServiceImpl implements BarberService {
 
     @Override
     public Barber findBarberById(Integer barberId) {
-        Optional<Barber> customer = barberRepository.findById(barberId);
-        if (customer.isPresent()) {
-            return customer.get();
+        Optional<Barber> barber = barberRepository.findById(barberId);
+        if (barber.isPresent()) {
+            return barber.get();
         } else {
             throw new ResourceNotFoundException("User not found");
         }

@@ -21,7 +21,7 @@ public class Barber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull
+//    @NotNull
     private String panNo;
     private boolean isOpened;
 
