@@ -96,25 +96,15 @@ public class EmailService implements EmailSender{
                 });
 
 
-                Message mimeMessage1 = new MimeMessage(session);
+                MimeMessage mimeMessage1 = new MimeMessage(session);
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage1, "UTF-8");
                 mimeMessage1.setFrom(new InternetAddress("suman2020j@gmail.com"));
                 mimeMessage1.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
                 mimeMessage1.setSubject("Confirm your email");
-                mimeMessage1.setText(email);
+                helper.setText(email,true);
 
                 Transport.send(mimeMessage1);
-//            }
-//            else {
-//                // IpAddress of Laptop from router
-//                MimeMessage mimeMessage = mailSender.createMimeMessage();
-//                MimeMessageHelper helper =
-//                        new MimeMessageHelper(mimeMessage, "UTF-8");
-//                helper.setText(email, true);
-//                helper.setTo(to);
-//                helper.setSubject("Confirm your email");
-//                helper.setFrom("bhojrajmishra4@gmail.com");
-//                mailSender.send(mimeMessage);
-//            }
+
         }catch (MessagingException e) {
             System.out.println("MESSAGE: " + e);
             LOGGER.error("failed to send email", e);

@@ -41,6 +41,7 @@ public class SecurityConfig {
 //                        .usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/", true));
 
 //                .formLogin(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(formLogin -> formLogin.disable())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(new RestAuthenticationEntryPoint()))
