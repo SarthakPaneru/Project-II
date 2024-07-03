@@ -1,11 +1,13 @@
 package com.example.hamro_barber.repository;
 
 import com.example.hamro_barber.model.Appointment;
+import com.example.hamro_barber.model.dto.BarberAppointmentDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
@@ -37,6 +39,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
                 "and booking_start > UNIX_TIMESTAMP()")
     List<Appointment> findAppointmentOfCustomerByStatus(@Param("customerId") Integer customerId, @Param("status") String status);
 
-
-
+    @Query(nativeQuery = true,
+        value = "select a.id, a.barber_id, a.customer_id, a.booking_start, a.booking_end, a.status, s.service_name from appointment a \n" +
+                "join appointment_services aps on a.id=aps.appointment_id \n" +
+                "join services s on aps.services_id=s.id \n" +
+                "where a.barber_id like :barberId AND a.status LIKE :status AND (a.booking_start > UNIX_TIMESTAMP())")
+    List<Map<String, Object>> getAppointmentOfBarber(@Param("barberId") Integer barberId, @Param("status") String status);
 }

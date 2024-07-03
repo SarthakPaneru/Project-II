@@ -3,6 +3,7 @@ package com.example.hamro_barber.controller;
 import com.example.hamro_barber.model.Barber;
 import com.example.hamro_barber.model.dto.BarberDto;
 import com.example.hamro_barber.mapper.BarberMapper;
+import com.example.hamro_barber.model.dto.LocationDto;
 import com.example.hamro_barber.service.serviceImpl.BarberServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -29,6 +31,11 @@ public class BarberController {
     @GetMapping("/get/{barberId}")
     public ResponseEntity<?> getBarber(@PathVariable Integer barberId) {
         return new ResponseEntity<>(barberMapper.barberToDto(barberService.findBarberById(barberId)), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-logged-in-user")
+    public ResponseEntity<?> getLoggedInUser(Principal principal) {
+        return new ResponseEntity<>(barberMapper.barberToDto(barberService.findBarberByEmail(principal.getName())), HttpStatus.OK);
     }
 
     @PostMapping("/create")
@@ -58,7 +65,7 @@ public class BarberController {
         response.sendRedirect(barberService.load(barberId));
     }
 
-    @PutMapping("{barberId}/update/location")
+    @PutMapping("/{barberId}/update/location")
     public ResponseEntity<?> updateLocation(@PathVariable Integer barberId, @RequestBody BarberDto barber) {
         Barber existingBarber = barberService.findBarberById(barberId);
         existingBarber.setLatitude(barber.getLatitude());

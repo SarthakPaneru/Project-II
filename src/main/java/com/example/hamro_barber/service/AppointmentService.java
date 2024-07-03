@@ -3,6 +3,7 @@ package com.example.hamro_barber.service;
 import com.example.hamro_barber.model.Appointment;
 import com.example.hamro_barber.model.dto.AppointmentRegisterDto;
 import com.example.hamro_barber.helper.ApiResponse;
+import com.example.hamro_barber.model.dto.BarberAppointmentDto;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface AppointmentService {
     boolean checkBarberAvailability(Integer barberId, Long bookingStart, Long bookingEnd);
     boolean checkCustomerAvailability(Integer customerId, Long bookingStart, Long bookingEnd);
 
+    List<BarberAppointmentDto> getUpcommingAppointmentsOfBarber(Integer barberId, String status);
 }

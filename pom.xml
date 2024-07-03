@@ -121,6 +121,31 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>3.0.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.3.0</version>
+        </dependency>
+
+<!--        WebSocket-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -153,7 +178,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.16</version>
+                            <version>1.18.30</version>
                         </path>
 
                         <!-- additional annotation processor required as of Lombok 1.18.16 -->

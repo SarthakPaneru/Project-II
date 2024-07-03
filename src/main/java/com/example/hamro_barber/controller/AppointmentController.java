@@ -33,9 +33,14 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentMapper.appointmentToDto(appointmentService.createAppointment(appointment)), HttpStatus.OK);
     }
 
+//    @GetMapping("/get/barber/{barberId}")
+//    public ResponseEntity<?> getBarberAppointment(@PathVariable Integer barberId) {
+//        return new ResponseEntity<>(appointmentMapper.listAppointmentToDto(appointmentService.getAppointmentsOfBarber(barberId)), HttpStatus.OK);
+//    }
+
     @GetMapping("/get/barber/{barberId}")
-    public ResponseEntity<?> getBarberAppointment(@PathVariable Integer barberId) {
-        return new ResponseEntity<>(appointmentMapper.listAppointmentToDto(appointmentService.getAppointmentsOfBarber(barberId)), HttpStatus.OK);
+    public ResponseEntity<?> getBarberAppointment(@PathVariable Integer barberId, @RequestParam String status) {
+        return new ResponseEntity<>(appointmentService.getUpcommingAppointmentsOfBarber(barberId, status), HttpStatus.OK);
     }
 
     @GetMapping("/get/customer/{customerId}")

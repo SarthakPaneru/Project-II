@@ -41,6 +41,7 @@ public class SecurityConfig {
 //                        .usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/", true));
 
 //                .formLogin(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(formLogin -> formLogin.disable())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(new RestAuthenticationEntryPoint()))
@@ -65,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
 
-        return web -> web.ignoring().requestMatchers("/images/**", "/js/**","/auth/**", "/api/v1/registration/**");
+        return web -> web.ignoring().requestMatchers("/images/**", "/user/*/get-image", "/js/**","/auth/**", "/api/v1/registration/**", "/ws/**");
     }
 
     @Bean
