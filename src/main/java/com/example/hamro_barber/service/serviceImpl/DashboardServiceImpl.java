@@ -39,7 +39,23 @@ public class DashboardServiceImpl implements DashboardService {
         return serviceRepository.getCountsByCategory(barberId);
     }
 
+    @Override
+    public List<Map<String, Object>> getTopCustomerByCategory(Integer barberId,String category) {
+        if (category == null || category.trim().isEmpty()) {
+            return serviceRepository.getTopCustomersAllCategories(barberId);
+        }
+        else{
+            return serviceRepository.getTopCustomersByCategory(barberId,category);
+        }
+    }
 
+    @Override
+    public List<Map<String, Object>> getTopCustomerByService(Integer barberId,String serviceName) {
+        if(serviceName == null || serviceName.trim().isEmpty()) {
+            return serviceRepository.getTopCustomerByAllServiceName(barberId);
+        }
+        else return serviceRepository.getTopCustomerByServiceName(barberId,serviceName);
+    }
 
     @Override
     public List<Map<String, Object>> getCountsByServiceName(Integer barberId) {

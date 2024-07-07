@@ -17,5 +17,6 @@ public interface BarberService {
     void saveImage(MultipartFile file, Integer barberId);
     String load(Integer barberId);
 
+
     List<Barber> findNearestBarbers(Double latitude, Double longitude);
 }

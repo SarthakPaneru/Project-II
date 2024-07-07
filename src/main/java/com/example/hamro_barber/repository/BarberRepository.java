@@ -23,4 +23,7 @@ public interface BarberRepository extends JpaRepository<Barber, Integer> {
 
     @Override
     List<Barber> findAllById(Iterable<Integer> integers);
+
+
+
 }

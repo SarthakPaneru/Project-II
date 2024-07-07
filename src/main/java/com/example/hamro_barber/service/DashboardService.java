@@ -13,5 +13,7 @@ public interface DashboardService {
     List<Map<String, Object>> getCountsByServiceName(Integer barberId);
     List<Map<String,Object>> getCountsByCategoryForAppointment(Integer barberId);
     List<Map<String,Object>> getCountsByServiceNameForAppointment(Integer barberId);
+    List<Map<String,Object>> getTopCustomerByCategory(Integer barberId,String category);
+    List<Map<String,Object>> getTopCustomerByService(Integer barberId,String serviceName);
 
 }

@@ -42,5 +42,16 @@ public class DashboardController {
         List<Map<String, Object>> getData = dashboardService.getCountsByServiceNameForAppointment(barberId);
         return ResponseEntity.ok(getData);
     }
+    @GetMapping("/getTopCustomerByCategory")
+    public ResponseEntity<List<Map<String, Object>>> getTopCustomerByCategory(@RequestParam Integer barberId,@RequestParam String category) {
+        List<Map<String, Object>> getData = dashboardService.getTopCustomerByCategory(barberId,category);
+        return ResponseEntity.ok(getData);
+    }
+
+    @GetMapping("/getTopCustomerByService")
+    public ResponseEntity<List<Map<String, Object>>> getTopCustomerByService(@RequestParam Integer barberId,@RequestParam String serviceName) {
+        List<Map<String, Object>> getData = dashboardService.getTopCustomerByService(barberId,serviceName);
+        return ResponseEntity.ok(getData);
+    }
 
 }

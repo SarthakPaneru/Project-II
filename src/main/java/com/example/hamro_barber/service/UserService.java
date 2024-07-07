@@ -25,6 +25,7 @@ public interface UserService {
 
     User updateUser(User user);
 
+
     void deleteUser(Integer userId);
     void saveImage(MultipartFile file);
     Resource loadImage(Integer userId);

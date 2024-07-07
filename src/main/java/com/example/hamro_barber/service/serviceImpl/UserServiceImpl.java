@@ -123,6 +123,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+
+
+
     @Override
     public void deleteUser(Integer userId) {
         userRepository.delete(findUserById(userId));
@@ -187,4 +190,5 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("You are not authenticated");
         }
     }
+
 }
