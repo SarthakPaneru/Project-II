@@ -1,5 +1,6 @@
 package com.example.hamro_barber.controller;
 
+import com.example.hamro_barber.model.dto.SocketDto;
 import com.example.hamro_barber.socket.SocketService;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -54,12 +55,19 @@ public class SocketController {
         service.test();
     }
 
-    @MessageMapping("/receive/{id}")
-    @SendTo("/topic/send/4")
-    public Map<String, Object> greeting(@DestinationVariable String id, Map<String, Object> message) throws Exception {
+    // Message received from barber
+    @MessageMapping("/barber/{id}")
+    public void greeting(@DestinationVariable Integer id, Map<String, Object> message) {
 //        Thread.sleep(1000); // simulated delay
         System.out.println(message.toString());
         System.out.println("MESSAGE FROM topic/test");
-        return message;
+        service.sendMessageToCustomer(message, id);
+    }
+
+    // Message received from customer
+    @MessageMapping("/customer/{id}")
+    public void customer(@DestinationVariable Integer id, SocketDto socketDto) {
+        System.out.println(socketDto.toString());
+        service.sendMessageToNearbyBarbers(id, socketDto);
     }
 }

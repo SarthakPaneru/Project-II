@@ -42,7 +42,7 @@ public class BarberServiceImpl implements BarberService {
         if (barber.isPresent()) {
             return barber.get();
         } else {
-            throw new ResourceNotFoundException("User not found");
+            throw new ResourceNotFoundException("Barber not found");
         }
     }
     @Override
