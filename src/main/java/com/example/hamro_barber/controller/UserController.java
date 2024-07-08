@@ -2,6 +2,7 @@ package com.example.hamro_barber.controller;
 
 import com.example.hamro_barber.helper.ApiResponse;
 import com.example.hamro_barber.mapper.UserMapper;
+import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.model.dto.PasswordChangeDto;
 import com.example.hamro_barber.model.validation.ImageFileValidator;
 import com.example.hamro_barber.model.validation.ValidImageFile;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -72,4 +74,8 @@ public class UserController {
                 .contentType(mediaType)
                 .body(userService.loadImage(userId));
     }
+
+
+
+
 }
