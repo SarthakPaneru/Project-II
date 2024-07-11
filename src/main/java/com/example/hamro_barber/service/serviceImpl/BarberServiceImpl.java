@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -162,6 +163,11 @@ public class BarberServiceImpl implements BarberService {
 
 
         return barberList;
+    }
+
+    @Override
+    public HttpStatusCode searchBarberByName(String name) {
+        return barberRepository.findBarberByName(name);
     }
 
     private Double findDistance(Double lat1, Double lon1, Double lat2, Double lon2) {

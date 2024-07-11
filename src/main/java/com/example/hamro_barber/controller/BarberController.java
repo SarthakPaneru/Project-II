@@ -84,4 +84,9 @@ public class BarberController {
         List<Barber> barbers = barberService.findNearestBarbers(latitude, longitude);
         return new ResponseEntity<>(barberMapper.listBarberToDto(barbers), HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchBarbers(@RequestParam("q") String name) {
+        return new ResponseEntity<>(barberService.searchBarberByName(name));
+    }
 }

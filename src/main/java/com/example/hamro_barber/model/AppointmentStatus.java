@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 public enum AppointmentStatus {
     UPCOMING("upcoming"),
     COMPLETED("completed"),
-    CANCELED("canceled");
+    CANCELLED("cancelled");
 
     private String value;
 

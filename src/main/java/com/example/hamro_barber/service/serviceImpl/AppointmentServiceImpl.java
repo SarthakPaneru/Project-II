@@ -136,4 +136,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         ObjectMapper objectMapper = new ObjectMapper();
         return results.stream().map(map -> objectMapper.convertValue(map, BarberAppointmentDto.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public Appointment updateAppointmentStatus(Integer appointmentId, String status) {
+        Appointment appointment = getAppointment(appointmentId);
+        appointment.setStatus(AppointmentStatus.valueOf(status));
+        return appointmentRepository.save(appointment);
+    }
 }

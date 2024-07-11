@@ -4,6 +4,7 @@ import com.example.hamro_barber.model.Barber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatusCode;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ public interface BarberRepository extends JpaRepository<Barber, Integer> {
     @Override
     List<Barber> findAllById(Iterable<Integer> integers);
 
-
-
+    @Query(nativeQuery = true,
+            value = "select ")
+    HttpStatusCode findBarberByName(String name);
 }

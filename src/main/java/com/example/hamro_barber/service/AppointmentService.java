@@ -19,4 +19,6 @@ public interface AppointmentService {
     boolean checkCustomerAvailability(Integer customerId, Long bookingStart, Long bookingEnd);
 
     List<BarberAppointmentDto> getUpcommingAppointmentsOfBarber(Integer barberId, String status);
+
+    Appointment updateAppointmentStatus(Integer appointmentId, String status);
 }

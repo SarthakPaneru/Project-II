@@ -54,4 +54,9 @@ public class AppointmentController {
 //    public ResponseEntity<?> getAppointmentUpcoming() {
 //        return new ResponseEntity<>(appointmentMapper.listAppointmentToDto(appointmentService.getAppointmentsOfCustomer()))
 //    }
+
+    @PutMapping("/update/{appointmentId}")
+    public ResponseEntity<?> updateAppointmentStatus(@PathVariable("appointmentId") Integer appointmentId, @RequestParam("status") String status) {
+        return new ResponseEntity<>(appointmentMapper.appointmentToDto(appointmentService.updateAppointmentStatus(appointmentId, status)), HttpStatus.OK);
+    }
 }
