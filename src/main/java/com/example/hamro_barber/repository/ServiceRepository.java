@@ -5,6 +5,7 @@ import com.example.hamro_barber.model.User;
 import com.example.hamro_barber.model.dto.ServiceDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -131,7 +132,7 @@ public interface ServiceRepository extends JpaRepository<Services, Integer> {
                     "FROM ranked_customers " +
                     "WHERE rn <= 5 " +
                     "ORDER BY category, category_count DESC")
-    List<Map<String, Object>> getTopCustomersAllCategories(Integer barberId);
+    List<Map<String, Object>> getTopCustomersAllCategories(@Param("barberId") Integer barberId);
 
 
     // Query for a specific category when category is provided
@@ -163,7 +164,7 @@ public interface ServiceRepository extends JpaRepository<Services, Integer> {
                     "FROM ranked_customers " +
                     "WHERE rn <= 5 " +
                     "ORDER BY category_count DESC")
-    List<Map<String, Object>> getTopCustomersByCategory(Integer barberId, String category);
+    List<Map<String, Object>> getTopCustomersByCategory(@Param("barberId") Integer barberId, @Param("category") String category);
 
 
 
@@ -194,7 +195,7 @@ public interface ServiceRepository extends JpaRepository<Services, Integer> {
                     "FROM ranked_customers " +
                     "WHERE rn <= 5 " +
                     "ORDER BY service_name, service_count DESC")
-    List<Map<String, Object>> getTopCustomerByAllServiceName(Integer barberId);
+    List<Map<String, Object>> getTopCustomerByAllServiceName(@Param("barberId") Integer barberId);
 
     @Query(nativeQuery = true, value =
             "WITH service_totals AS ( " +
@@ -225,7 +226,7 @@ public interface ServiceRepository extends JpaRepository<Services, Integer> {
                     "FROM ranked_customers " +
                     "WHERE rn <= 5 " +
                     "ORDER BY service_name, service_count DESC")
-    List<Map<String, Object>> getTopCustomerByServiceName(Integer barberId,String serviceName);
+    List<Map<String, Object>> getTopCustomerByServiceName(@Param("barberId") Integer barberId, @Param("serviceName") String serviceName);
 
 
 }

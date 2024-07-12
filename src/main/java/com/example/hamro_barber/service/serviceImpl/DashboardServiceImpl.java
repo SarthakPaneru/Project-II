@@ -42,6 +42,7 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public List<Map<String, Object>> getTopCustomerByCategory(Integer barberId,String category) {
         if (category == null || category.trim().isEmpty()) {
+            System.out.println("ID: " + barberId);
             return serviceRepository.getTopCustomersAllCategories(barberId);
         }
         else{

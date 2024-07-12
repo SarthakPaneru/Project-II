@@ -191,4 +191,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User updateUserDeviceIdFirebase(Integer userId, String deviceRegistrationToken) {
+        User user = findUserById(userId);
+        user.setDeviceIdFirebase(deviceRegistrationToken);
+        return updateUser(user);
+    }
 }

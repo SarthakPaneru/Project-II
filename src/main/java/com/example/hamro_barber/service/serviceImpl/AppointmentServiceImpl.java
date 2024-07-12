@@ -143,4 +143,16 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(AppointmentStatus.valueOf(status));
         return appointmentRepository.save(appointment);
     }
+
+    @Override
+    public Appointment updateNotificationStatus(Integer appointmentId) {
+        Appointment appointment = getAppointment(appointmentId);
+        appointment.setNotificationSent(true);
+        return appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public List<Appointment> findNext30MinutesAppointment() {
+        return appointmentRepository.findNext30MinutesAppointment();
+    }
 }

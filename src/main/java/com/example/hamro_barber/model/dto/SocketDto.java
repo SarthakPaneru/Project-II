@@ -14,5 +14,7 @@ public class SocketDto {
     private Double longitude;
     private Double latitude;
     private Double distance;
+    private String serviceName;
+    private Integer price;
 
 }

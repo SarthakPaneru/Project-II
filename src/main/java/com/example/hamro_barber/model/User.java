@@ -33,6 +33,7 @@ public class User implements UserDetails {
     private UserRole userRole;
     private String imageUrl;
     private boolean enabled;
+    private String deviceIdFirebase;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

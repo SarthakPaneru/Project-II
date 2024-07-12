@@ -45,4 +45,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
                 "join services s on aps.services_id=s.id \n" +
                 "where a.barber_id like :barberId AND a.status LIKE :status AND (a.booking_start > UNIX_TIMESTAMP())")
     List<Map<String, Object>> getAppointmentOfBarber(@Param("barberId") Integer barberId, @Param("status") String status);
+
+    @Query(nativeQuery = true,
+        value = "select * from appointment where (booking_start-unix_timestamp()) <= 18000 and (booking_start-unix_timestamp()) > 0 and status like 'UPCOMING' and notification_sent=0")
+    List<Appointment> findNext30MinutesAppointment();
 }

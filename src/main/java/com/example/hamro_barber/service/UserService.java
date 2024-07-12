@@ -35,4 +35,5 @@ public interface UserService {
     String confirmAndUpdatePassword(PasswordChangeDto passwordChangeDto);
 
     String updatePassword(PasswordChangeDto passwordChangeDto, String principalEmail);
+    User updateUserDeviceIdFirebase(Integer userId, String deviceRegistrationToken);
 }

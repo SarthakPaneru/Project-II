@@ -30,4 +30,8 @@ public class Appointment {
     private AppointmentStatus status;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Services> services;
+    @ManyToOne
+    private DefaultService defaultService;
+    private boolean paymentCompleted = false;
+    private boolean notificationSent = false;
 }

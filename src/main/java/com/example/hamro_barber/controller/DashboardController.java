@@ -43,13 +43,13 @@ public class DashboardController {
         return ResponseEntity.ok(getData);
     }
     @GetMapping("/getTopCustomerByCategory")
-    public ResponseEntity<List<Map<String, Object>>> getTopCustomerByCategory(@RequestParam Integer barberId,@RequestParam String category) {
+    public ResponseEntity<List<Map<String, Object>>> getTopCustomerByCategory(@RequestParam(name = "barberId") Integer barberId,@RequestParam(name = "category", required = false) String category) {
         List<Map<String, Object>> getData = dashboardService.getTopCustomerByCategory(barberId,category);
         return ResponseEntity.ok(getData);
     }
 
     @GetMapping("/getTopCustomerByService")
-    public ResponseEntity<List<Map<String, Object>>> getTopCustomerByService(@RequestParam Integer barberId,@RequestParam String serviceName) {
+    public ResponseEntity<List<Map<String, Object>>> getTopCustomerByService(@RequestParam(name = "barberId") Integer barberId,@RequestParam(name = "serviceName", required = false) String serviceName) {
         List<Map<String, Object>> getData = dashboardService.getTopCustomerByService(barberId,serviceName);
         return ResponseEntity.ok(getData);
     }

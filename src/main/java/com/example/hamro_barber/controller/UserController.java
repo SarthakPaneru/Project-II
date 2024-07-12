@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -75,7 +76,11 @@ public class UserController {
                 .body(userService.loadImage(userId));
     }
 
-
+    @PutMapping("/{userId}/update-registration-token")
+    public ResponseEntity<?> updateRegistrationToken(@PathVariable Integer userId, @RequestBody Map<String, Object> token) {
+        System.out.println("FCM token: " + token.get("fcmToken").toString());
+        return new ResponseEntity<>(userMapper.userToDto(userService.updateUserDeviceIdFirebase(userId, token.get("fcmToken").toString())), HttpStatus.OK);
+    }
 
 
 }

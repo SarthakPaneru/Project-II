@@ -17,8 +17,9 @@ public interface AppointmentService {
     ApiResponse deleteAppointment(Integer appointmentId);
     boolean checkBarberAvailability(Integer barberId, Long bookingStart, Long bookingEnd);
     boolean checkCustomerAvailability(Integer customerId, Long bookingStart, Long bookingEnd);
-
     List<BarberAppointmentDto> getUpcommingAppointmentsOfBarber(Integer barberId, String status);
-
     Appointment updateAppointmentStatus(Integer appointmentId, String status);
+    Appointment updateNotificationStatus(Integer appointmentId);
+    List<Appointment> findNext30MinutesAppointment();
+
 }

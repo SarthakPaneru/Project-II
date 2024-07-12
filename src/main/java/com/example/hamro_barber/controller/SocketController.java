@@ -29,7 +29,7 @@ public class SocketController {
     @GetMapping("/socket/push")
     public ResponseEntity<?> sendMessage(String m) throws FirebaseMessagingException {
         // This registration token comes from the client FCM SDKs.
-        String registrationToken = "fcQkN9TpQj-VAr2zFtYxXm:APA91bFS-8yH37RgjTzQiVEuU1WrP_2hEK024nO_majseZVQI2C9BaieNwZl02dpW-9aZkKZYHG1Qe_R_RQc2ZAHJGzgyc19UWSTbQTVEpx1KckB5HPZkhz-Z4pvhqB6VsQJ2vqzSSMN";
+        String registrationToken = "e1j9CY5oRCqFlyXKqmKva5:APA91bFQvhuj842BEGysKo06Qkaw_oTqrh57Aae2nzRw9P5MVf4_Iy99oeW82f_fhw4292rLOjDNkAImON1UxVhkgopVRjdsDe9g5t9KH6j25TXFHTPz5PTjrsZWLvgpWgCd3PfJXx3R";
 
 // See documentation on defining a message payload.
         Message message = Message.builder()
